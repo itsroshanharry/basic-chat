@@ -1,16 +1,17 @@
 {
-  "name": "server",
-  "version": "0.0.0",
-  "private": true,
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+   "dev": "nodemon app.js",
+   "start": "node app.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2",
+    "socket.io": "^4.7.5"
   }
 }
