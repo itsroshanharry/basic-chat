@@ -24,9 +24,10 @@ app.get('/', function(req, res) {
 io.on("connection", (socket) => {
     console.log("A new user has connected", socket.id);
    
-    socket.on("message", (data)=>{
-        console.log(data);
-        io.emit("receive-message", data);
+    socket.on("message", ({message, room})=>{
+        console.log({message, room});
+        io.to(room).emit("receive-message", message);
+       
     })
 
     socket.on("disconnected", ()=> {
