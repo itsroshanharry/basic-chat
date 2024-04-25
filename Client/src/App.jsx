@@ -5,14 +5,21 @@ import { Stack, Container, Typography, TextField, Button } from '@mui/material';
 const App = () => {
   const socket = useMemo(() => io("http://localhost:3000"), []);
 
+  const [allMessages, setAllMessages] = useState([]);
   const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [socketId, setSocketId] = useState("");
-  const [allMessages, setAllMessages] = useState([]);
+  const [roomName, setRoomName] = useState("");
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("message", { message, room });
+  }
+
+  const handleroomName = (e) =>{
+    e.preventDefault();
+    socket.emit("join-room", roomName);
   }
 
   useEffect(() => {
@@ -23,7 +30,7 @@ const App = () => {
 
     socket.on("receive-message", (data) => {
       console.log(data);
-      setAllMessages(prevMessages => [...prevMessages, data]);
+      setAllMessages(allMessages => [...allMessages, data]);
     })
 
     socket.on("welcome", (msg) => {
@@ -40,6 +47,20 @@ const App = () => {
       <Typography variant="h6" component="div" gutterBottom>
         {socketId}
       </Typography>
+
+      <form onSubmit={handleroomName}>
+        <TextField
+          value={roomName}
+          onChange={e => setRoomName(e.target.value)}
+          id="outlined-basic"
+          label="Room Name"
+          variant="outlined"
+        />
+         <Button type="submit" variant="contained" color="primary">
+          Join
+        </Button>
+      </form>
+
 
       <form onSubmit={handleSubmit}>
         <TextField
