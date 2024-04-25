@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { io } from 'socket.io-client';
-import { Stack, Container, Typography, TextField, Button, CssBaseline, Paper, ThemeProvider, createTheme } from '@mui/material';
-import { purple, teal } from '@mui/material/colors';
+import { Stack, Typography, TextField, Button, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    primary: teal,
-    secondary: purple,
+    background: {
+      default: '#121212', // Dark background color
+    },
   },
 });
 
@@ -49,66 +50,70 @@ const App = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container maxWidth="sm">
-        <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
-          <Typography variant="h2" gutterBottom>
-            Welcome to the Chat App
-          </Typography>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        padding={4}
+        minHeight="100vh"
+        bgcolor={darkTheme.palette.background.default}
+        color="#fff" // Text color
+      >
+        <Typography variant="h2" gutterBottom>
+          Welcome to the Chat App
+        </Typography>
 
-          <Typography variant="h6" component="div" gutterBottom>
-            Your Socket ID: {socketId}
-          </Typography>
+        <Typography variant="h6" gutterBottom>
+          Your Socket ID: {socketId}
+        </Typography>
 
-          <form onSubmit={handleRoomName} style={{ marginBottom: 20 }}>
-            <TextField
-              value={roomName}
-              onChange={e => setRoomName(e.target.value)}
-              id="outlined-basic"
-              label="Enter Room Name"
-              variant="outlined"
-              fullWidth
-              style={{ marginBottom: 10 }}
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Join Room
-            </Button>
-          </form>
+        <form onSubmit={handleRoomName} style={{ marginBottom: 20 }}>
+          <TextField
+            value={roomName}
+            onChange={e => setRoomName(e.target.value)}
+            id="outlined-basic"
+            label="Enter Room Name"
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: 10 }}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Join Room
+          </Button>
+        </form>
 
-          <form onSubmit={handleSubmit}>
-            <TextField
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              id="outlined-basic"
-              label="Message"
-              variant="outlined"
-              fullWidth
-              style={{ marginBottom: 10 }}
-            />
-            <TextField
-              value={room}
-              onChange={e => setRoom(e.target.value)}
-              id="outlined-basic"
-              label="Room"
-              variant="outlined"
-              fullWidth
-              style={{ marginBottom: 10 }}
-            />
-            <Button type="submit" variant="contained" color="secondary">
-              Send Message
-            </Button>
-          </form>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            id="outlined-basic"
+            label="Message"
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: 10 }}
+          />
+          <TextField
+            value={room}
+            onChange={e => setRoom(e.target.value)}
+            id="outlined-basic"
+            label="Room"
+            variant="outlined"
+            fullWidth
+            style={{ marginBottom: 10 }}
+          />
+          <Button type="submit" variant="contained" color="secondary">
+            Send Message
+          </Button>
+        </form>
 
-          <Stack style={{ marginTop: 20 }}>
-            {
-              allMessages && allMessages.map((m, i) => (
-                <Typography key={i} variant="body1" component="div" gutterBottom>
-                  {m}
-                </Typography>
-              ))
-            }
-          </Stack>
-        </Paper>
-      </Container>
+        <Stack spacing={1}>
+          {allMessages.map((m, i) => (
+            <Typography key={i} variant="body1" component="div">
+              {m}
+            </Typography>
+          ))}
+        </Stack>
+      </Stack>
     </ThemeProvider>
   );
 }
